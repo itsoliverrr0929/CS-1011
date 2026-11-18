@@ -346,6 +346,12 @@ def heatHazeActivate():
     enemyPool.append("normal")
     enemyPool.append("ranger")
 
+
+gunKnockback = 500
+def rocketPropulsionActivate():
+    global gunKnockback
+    gunKnockback += 50
+
 # Positive / Negative effects on level up
 # Each is an array of arrays. Each index is a level of effect.
 # The higher the level, the stronger the positive / negative effect.
@@ -443,6 +449,11 @@ negativeLevelEffects = [
             "name": "Steelskin",
             "description": "Enemies gain more health",
             "onActivate": steelskinActivate
+        },
+        {
+            "name": "Rocket Propulsion",
+            "description": "Increased gun recoil. This seems like a bad idea.",
+            "onActivate": rocketPropulsionActivate
         }
     ],
     [ # lv. 3 effects
@@ -492,10 +503,15 @@ cardRarities = [
 def pickRandomEffects():
     WEIGHTS = [0,0,0,1,1,2]
     level = random.choice(WEIGHTS)
+
     randomPosEffect = random.choice(positiveLevelEffects[level])
     while(("prerequisite" in randomPosEffect and not randomPosEffect["prerequisite"] in usedEffects) or ("antiprerequisite" in randomPosEffect and randomPosEffect["antiprerequisite"] in usedEffects)):
         randomPosEffect = random.choice(positiveLevelEffects[level])
+
     randomNegEffect = random.choice(negativeLevelEffects[level])
+    while(("prerequisite" in randomNegEffect and not randomNegEffect["prerequisite"] in usedEffects) or ("antiprerequisite" in randomNegEffect and randomNegEffect["antiprerequisite"] in usedEffects)):
+        randomNegEffect = random.choice(negativeLevelEffects[level])
+    
     return [randomPosEffect, randomNegEffect, cardRarities[level]]
 
 def createEffectSelections():
@@ -929,8 +945,8 @@ def doFire():
     global playerAmmo
     if(playerAmmo > 0):
         gunSound.play().set_volume(random.random() * 0.5 + 0.5)
-        playerVelocity["x"] -= math.cos(gunAngle) * 500
-        playerVelocity["y"] -= math.sin(gunAngle) * 500
+        playerVelocity["x"] -= math.cos(gunAngle) * gunKnockback
+        playerVelocity["y"] -= math.sin(gunAngle) * gunKnockback
         for i in range(projectilesPerShot):
             angleOffset = random.uniform(-projectileSpread / 2, projectileSpread / 2)
             createProjectile(
