@@ -695,7 +695,7 @@ def handleBulletCollision(projectileIndex):
                 # dead enemy
                 points += ENEMY_TYPES[enemy["type"]][5]
                 if(points >= nextPointLevel):
-                    nextPointLevel += 10
+                    nextPointLevel += 10 + level * 2
                     level += 1
                     triggerPickEffect()
                     if(level % 10 == 0):
