@@ -1,11 +1,11 @@
-CS 1010 / CS 1011 FINAL PROJECT: Project Monster Slayers
+# CS 1010 / CS 1011 FINAL PROJECT: Project Monster Slayers
 
-Contributors:
+**Contributors:**
 - Adler Vuong (Javaappa)
 - Oliver Ho (itsoliverrr0929)
 - Joshua Chan (TBA)
 
-Modules Used:
+**Modules Used:**
 - tkinter
 - math
 - time
